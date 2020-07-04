@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static\css\style.css">
+    <title>AMS | Login</title>
+</head>
+
+
+<body>
+    {% extends 'includes/navbar.html' %}
+    {% block content %}
+    <center>
+        <form action="dashboard" method='POST'>
+            <table class="tLogin">
+                <tr>
+                    <td>
+                        <h2>CUSTOMER LOGIN</h2>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="User ID"></td>
+                </tr>
+                <tr>
+                    <td><input type="password" placeholder="Password"></td>
+                </tr>
+            </table>
+            <input class='iLogin' type="submit" value="SUBMIT">
+        </form>
+    </center>
+</body>
+{%  endblock %}
+</html>

@@ -1,0 +1,5 @@
+mail id
+phone
+addressline
+phramacyname
+LicenceNO

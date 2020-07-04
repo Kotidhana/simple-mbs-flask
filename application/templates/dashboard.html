@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMS | Dashboard</title>
+</head>
+<body>
+    {% for message in get_flashed_messages() %}
+    <center><h4>{{ message }}</h4></center>
+    {% endfor %}
+    {% if user %}
+    <center><h4>{{ user }}</h4></center>
+    {% endif %}
+    <h1>Dashboard under Consideration</h1>
+</body>
+</html>
