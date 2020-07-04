@@ -1,24 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static\css\style.css">
-    <title>AMS | Registration</title>
-</head>
-<body>
-    {% extends 'includes/navbar.html' %}
-    {% block main %}
-    <center>
-        <form action="register" method="POST">
-            
-            <table class="tRegister">
+
+{% extends 'includes/base.html' %}
+{% block content %}
+    <div class="container">
+        <form action="" method="POST">
+            <fieldset class="form-group">
+                <legend>REGISTER</legend>
+                <table class="table table-borderless table-hover">
+                    <tbody>
+                        <tr>
+                            <th scope="row"></th>
+                            <td>{{ form.hidden_tag() }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.f_name.label }}</th>
+                            <td>{{ form.f_name(size=20) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.phone.label }}</th>
+                            <td>{{ form.phone(size=12) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.mail.label }}</th>
+                            <td>{{ form.mail(size=20) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.p_name.label }}</th>
+                            <td>{{ form.p_name(size=30) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.addr.label }}</th>
+                            <td>{{ form.addr(size=50) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.city.label }}</th>
+                            <td>{{ form.city(size=20) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.state.label }}</th>
+                            <td>{{ form.state(size=15) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.pincode.label }}</th>
+                            <td>{{ form.pincode(size=6) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.li_no.label }}</th>
+                            <td>{{ form.li_no(size=10) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.userid.label }}</th>
+                            <td>{{ form.userid(size=10) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.password.label }}</th>
+                            <td>{{ form.password(size=15) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.c_password.label }}</th>
+                            <td>{{ form.c_password(size=15) }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <th>{{ form.submit() }} </th>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+        
+            <!-- <table class="tRegister">
                 <tr>
                     <td><h2>CUSTOMER REGISTER</h2></td>
                 </tr>
                 <tr>
-                    <td><input type="text" name="fName" id="fName" placeholder="First Name *" required></td>
-                    <td><input type="text" name="lName" id="lName" placeholder="Last Name *" required></td>
+                    <td><input type="text" name="fName" id="fName" placeholder="Full Name *" required></td>
                 </tr>
                 <tr>
                     <td colspan=2><input type="text" name="" id="" placeholder="Phone Number *" required></td>
@@ -30,10 +84,7 @@
                     <td colspan=2><input type="text" name="" id="" placeholder="Pharmacy Name *" required></td>
                 </tr>
                 <tr>
-                    <td colspan=2><input type="text" name="" id="" placeholder="Address Line 1 *" required></td>
-                </tr>
-                <tr>
-                    <td colspan=2><input type="text" name="" id="" placeholder="Address Line 2"></td>
+                    <td colspan=2><input type="text" name="" id="" placeholder="Address *" required></td>
                 </tr>
                 <tr>
                     <td colspan=2><input type="text" name="" id="" placeholder="City *" required></td>
@@ -48,9 +99,7 @@
                     <td colspan=2><input type="text" name="" id="" placeholder="Licence Number *" required></td>
                 </tr>
             </table>
-            <input class="iRegister" type="submit" value="Register">
+            <input class="iRegister" type="submit" value="Register"> -->
         </form>
-    </center>
-    {% endblock %}
-</body>
-</html>
+    </div>
+{% endblock %}

@@ -1,20 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static\css\style.css">
-    <title>AMS | Login</title>
-</head>
-
-
-<body>
-    {% extends 'includes/navbar.html' %}
+    {% extends 'includes/base.html' %}
     {% block content %}
     <center>
-        <form action="dashboard" method='POST'>
-            <table class="tLogin">
+        <form action="" method='POST'><!--novalidate-->
+            <fieldset class="form-group">
+                {{ form.hidden_tag() }}
+
+                <h6>
+                    {{ form.userid.label }}
+                    {{ form.userid(size=10) }}
+                    <!-- {% for error in form.userid.errors %}
+                        <span class="error-messages">{{ error }}</span>
+                    {% endfor %} -->
+                </h6>
+                <h6>
+                    {{ form.password.label }}
+                    {{ form.password(size=15) }}
+                    <!-- {% for error in form.password.errors %}
+                        <span class=".error-messages">{{ error }}</span>    
+                    {% endfor %} -->
+                </h6>
+                <p>
+                    {{ form.submit() }}
+                </p>
+                
+            </fieldset>
+            <!-- <table class="tLogin">
                 <tr>
                     <td>
                         <h2>CUSTOMER LOGIN</h2>
@@ -27,9 +38,7 @@
                     <td><input type="password" placeholder="Password"></td>
                 </tr>
             </table>
-            <input class='iLogin' type="submit" value="SUBMIT">
+            <input class='iLogin' type="submit" value="SUBMIT"> -->
         </form>
     </center>
-</body>
 {%  endblock %}
-</html>

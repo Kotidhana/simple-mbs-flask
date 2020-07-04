@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/css/style.css">
-    <title>AMS | Not Found</title>
-</head>
-
-<body>
-    <div class="error-image">
-        <img src="/static/images/dudes.png" alt="">
-        <h3>Sorry! The Page you are trying to access is missing.</h3>
-        <h3>Why don't you try our <a href="{{ url_for('home') }}">HOMEPAGE</a></h3>
+{% extends 'includes/base.html' %}
+{% block content %}
+    <div class="error-image text-center">
+        <img src="{{ url_for('static',filename='images/dudes.png') }}" alt="">
+        <h2>Sorry! The Page {{ str }} you are trying to access is missing.</h2>
+        <h2>Why don't you try our <a href="{{ url_for('index') }}">HOMEPAGE</a></h3>
     </div>
-
-</body>
-
-</html>
+{% endblock %}
