@@ -2,7 +2,7 @@ import flask
 from application import db
 from werkzeug.security import generate_password_hash,check_password_hash
 
-class Customer(db.Document):
+class Customers(db.Document):
     f_name  =   db.StringField( max_length=20 )
     phone   =   db.IntField( max_length=12 )
     mail    =   db.StringField( max_length=20 )
