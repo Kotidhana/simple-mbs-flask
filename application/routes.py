@@ -15,10 +15,10 @@ def index():
 def login():
     lForm = LoginForm()
     if lForm.validate_on_submit():
-        userid      =   request.form.get('userid')
+        user_id      =   request.form.get('user_id')
         password    =   lForm.password.data
 
-        user = Customer.objects(user_id=userid).first()
+        user = Customer.objects(user_id=user_id).first()
         if user and password==user.password:
             flash('Login Successful!','success')
             return redirect('/index')

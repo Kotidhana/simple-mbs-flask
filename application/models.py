@@ -1,5 +1,6 @@
 import flask
 from application import db
+from werkzeug.security import generate_password_hash,check_password_hash
 
 class Customer(db.Document):
     f_name  =   db.StringField( max_length=20 )
@@ -13,6 +14,12 @@ class Customer(db.Document):
     li_no   =   db.StringField( max_length=10 )
     cust_id =   db.StringField( max_length=20, unique=True )
     password=   db.StringField()
+
+    def set_password(self, password):
+        self.password   =   generate_password_hash(password)
+
+    def get_password(self, password):
+        return check_password_hash(self.password, password)
     
 
 class Medicine(db.Document):
