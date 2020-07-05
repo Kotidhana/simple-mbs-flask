@@ -1,29 +1,26 @@
 
     {% extends 'includes/base.html' %}
     {% block content %}
-    <center>
-        <form action="" method='POST'><!--novalidate-->
+        <form action="" method='POST'>
             <fieldset class="form-group">
+                <legend>Login</legend>
                 {{ form.hidden_tag() }}
-
-                <h6>
-                    {{ form.userid.label }}
-                    {{ form.userid(size=10) }}
-                    <!-- {% for error in form.userid.errors %}
-                        <span class="error-messages">{{ error }}</span>
-                    {% endfor %} -->
-                </h6>
-                <h6>
-                    {{ form.password.label }}
-                    {{ form.password(size=15) }}
-                    <!-- {% for error in form.password.errors %}
-                        <span class=".error-messages">{{ error }}</span>    
-                    {% endfor %} -->
-                </h6>
-                <p>
-                    {{ form.submit() }}
-                </p>
-                
+                <table class="table table-borderless table-hover">
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{ form.user_id.label }}</th>
+                            <td>{{ form.user_id(size=15) }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">{{ form.password.label }}</th>
+                            <td>{{ form.password(size=15) }}</td>
+                        </tr>
+                        <tr>
+                            <th></th>
+                            <td>{{ form.submit() }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </fieldset>
             <!-- <table class="tLogin">
                 <tr>
@@ -40,5 +37,4 @@
             </table>
             <input class='iLogin' type="submit" value="SUBMIT"> -->
         </form>
-    </center>
 {%  endblock %}
