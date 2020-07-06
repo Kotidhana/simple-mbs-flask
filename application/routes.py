@@ -24,6 +24,7 @@ def login():
             return redirect('/index')
         else:
             flash('Userid and Password Does not match!...Try again','danger')
+
     return render_template('login.html',form=lForm, title='Login')
 
 
@@ -37,8 +38,7 @@ def register():
 @app.route('/dashboard')
 def manage():
     medlist =   Medicine.objects.order_by('+med_id')
-    cust    =   Customers.objects.order_by('+f_name')
-    return render_template('dashboard.html',mlist=medlist,names=cust, title='Dashboard')
+    return render_template('dashboard.html',mlist=medlist, title='Dashboard')
 
 
 
