@@ -15,17 +15,9 @@
             <td>
                 <form action="" method="POST">
                     <input type="hidden" name="med_id" value="{{ ml['med_id'] }}">
-                    <button>Order</button>
+                    <button class="btn btn-success">Order</button>
                 </form>
             </td>
-        </tr>
-        {% endfor %}
-        {% for name in names %}
-        <tr>
-            <td>{{ name['f_name'] }}</td>
-            <td>{{ name['phone'] }}</td>
-            <td>{{ name['mail']}}</td>
-            <td></td>
         </tr>
         {% endfor %}
     </tbody>
