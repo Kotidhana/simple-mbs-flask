@@ -18,8 +18,8 @@ def login():
         user_id     =   lForm.user_id.data
         password    =   lForm.password.data
 
-        user = Customers.objects(user_id = user_id).first()
-        if user and password==user.password:
+        cust = Customers.objects(user_id = user_id).first()
+        if cust and cust.get_password(password):
             flash('Login Successful!','success')
             return redirect('/index')
         else:
@@ -32,20 +32,52 @@ def login():
 @app.route('/register', methods=['GET','POST'])
 def register():
     rForm = RegisterForm()
+    if rForm.validate_on_submit():
+        f_name      =   rForm.f_name.data
+        phone       =   rForm.phone.data
+        mail        =   rForm.mail.data
+        p_name      =   rForm.p_name.data
+        addr        =   rForm.addr.data
+        city        =   rForm.city.data
+        state       =   rForm.state.data
+        pincode     =   rForm.pincode.data
+        li_no       =   rForm.li_no.data
+        user_id     =   rForm.user_id.data
+        password    =   rForm.password.data
+        
+        existing_user  =   Customers.objects(user_id=user_id).first()
+        if existing_user:
+            flash('Username Already exists!','danger')
+            return redirect(url_for('register'))
+        
+        else:
+            cust        =   Customers(f_name=f_name, phone=phone, mail=mail, p_name=p_name, addr=addr, city=city, state=state, pincode=pincode, user_id=user_id)
+            cust.set_password(password)
+            cust.save()
+            flash('You are Successfully registered!!!','success')
+            return redirect(url_for('index'))
+
     return render_template('register.html',form=rForm, title='Register')
 
 
-@app.route('/dashboard')
-def manage():
-    medlist =   Medicine.objects.order_by('+med_id')
-    return render_template('dashboard.html',mlist=medlist, title='Dashboard')
+@app.route('/order')
+def order():
+    medlist         =   Medicine.objects.order_by('+med_id')
+    return render_template('orders.html',mlist=medlist, title='MedList')
 
 
+@app.route('/dashboard', methods=['GET','POST'])
+def dashboard():
+    m_id    =   request.form.get('med_id')
+    m_n     =   request.form['m_name']
+    return render_template('dashboard.html', title = dashboard, m_data={'id':m_id,'name':m_n})
 
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
 #     return abort(404)
+
+
 @app.route('/<code>')
 def not_found(code):
     return render_template('not_found.html',str=code)

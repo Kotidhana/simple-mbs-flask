@@ -1,25 +1,19 @@
 {% extends 'includes/base.html' %}
 {% block content %}
-<table class="table table-hover">
-    <thead>
-        <th>Medicine ID</th>
-        <th>Medicine Name</th>
-        <th>Description</th>
-    </thead>
-    <tbody>
-        {% for ml in mlist %}
-        <tr>
-            <td>{{ ml['med_id'] }}</td>
-            <td>{{ ml['m_name'] }}</td>
-            <td>{{ ml['desc']}}</td>
-            <td>
-                <form action="" method="POST">
-                    <input type="hidden" name="med_id" value="{{ ml['med_id'] }}">
-                    <button class="btn btn-success">Order</button>
-                </form>
-            </td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <h1>Your Orders</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Medicine ID</th>
+                <th>Medicine Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ m_data.id }}</td>
+                <td>{{ m_data.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
 {% endblock %}
