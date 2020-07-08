@@ -28,5 +28,5 @@ class Medicine(db.Document):
     desc    =   db.StringField( max_length=255 )
 
 class Order(db.Document):
-    cust_id =   db.ObjectIdField()
-    med_id  =   db.ObjectIdField()
+    cust_id =   db.StringField( max_length=20 )
+    med_id  =   db.StringField( max_length=10 )

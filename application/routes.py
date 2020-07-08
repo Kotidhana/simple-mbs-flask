@@ -11,22 +11,6 @@ def index():
     return render_template('index.html',login=True, title='Homepage')
 
 
-@app.route('/login', methods=['GET','POST'])
-def login():
-    lForm = LoginForm()
-    if lForm.validate_on_submit():
-        user_id     =   lForm.user_id.data
-        password    =   lForm.password.data
-
-        cust = Customers.objects(user_id = user_id).first()
-        if cust and cust.get_password(password):
-            flash('Login Successful!','success')
-            return redirect('/index')
-        else:
-            flash('Userid and Password Does not match!...Try again','danger')
-
-    return render_template('login.html',form=lForm, title='Login')
-
 
 
 @app.route('/register', methods=['GET','POST'])
@@ -60,22 +44,94 @@ def register():
     return render_template('register.html',form=rForm, title='Register')
 
 
+
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    lForm = LoginForm()
+    if lForm.validate_on_submit():
+        user_id     =   lForm.user_id.data
+        password    =   lForm.password.data
+
+        cust = Customers.objects(user_id = user_id).first()
+        if cust and cust.get_password(password):
+            flash('Login Successful!','success')
+            session['user_id']=cust.user_id
+            return redirect('/index')
+        else:
+            flash('Userid and Password Does not match!...Try again','danger')
+
+    return render_template('login.html',form=lForm, title='Login')
+
+
+
+
 @app.route('/order')
 def order():
     medlist         =   Medicine.objects.order_by('+med_id')
     return render_template('orders.html',mlist=medlist, title='MedList')
 
 
+
+
 @app.route('/dashboard', methods=['GET','POST'])
 def dashboard():
     m_id    =   request.form.get('med_id')
     m_n     =   request.form['m_name']
-    return render_template('dashboard.html', title = dashboard, m_data={'id':m_id,'name':m_n})
+    cust_id =   session['user_id']
+
+    if m_id:
+        ord = Order.objects(cust_id=cust_id,med_id=m_id).first()
+        if ord:
+            flash(f"You already Ordered { m_n }!",'warning')
+            redirect( url_for('order') )
+
+        else:
+            Order(cust_id=cust_id,med_id=m_id).save()
+            flash(f"Order on { m_n } placed!",'success')  
+
+    meds    =   list( Customers.objects.aggregate(*[{
+                                                    '$lookup': {
+                                                        'from': 'order', 
+                                                        'localField': 'user_id', 
+                                                        'foreignField': 'cust_id', 
+                                                        'as': 'm1'
+                                                    }
+                                                }, {
+                                                    '$unwind': {
+                                                        'path': '$m1', 
+                                                        'preserveNullAndEmptyArrays': False
+                                                    }
+                                                }, {
+                                                    '$lookup': {
+                                                        'from': 'medicine', 
+                                                        'localField': 'm1.med_id', 
+                                                        'foreignField': 'med_id', 
+                                                        'as': 'm2'
+                                                    }
+                                                }, {
+                                                    '$unwind': {
+                                                        'path': '$m2', 
+                                                        'preserveNullAndEmptyArrays': False
+                                                    }
+                                                }, {
+                                                    '$match': {
+                                                        'user_id': cust_id
+                                                    }
+                                                }
+                                            ]))
+
+    return render_template('dashboard.html', title='Dashboard', meds=meds)
+
+
+
 
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
 #     return abort(404)
+
+
 
 
 @app.route('/<code>')
