@@ -1,19 +1,24 @@
 {% extends 'includes/base.html' %}
 {% block content %}
     <h1>Your Orders</h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Medicine ID</th>
+    {% if meds %}
+        <table class="table table-striped">
+            <thead>
+                <th>Medicine Id</th>
                 <th>Medicine Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ m_data.id }}</td>
-                <td>{{ m_data.name }}</td>
-            </tr>
-        </tbody>
-    </table>
-
+                <th>Description</th>
+            </thead>
+            <tbody>
+                {% for m in meds %}
+                    <tr>
+                        <td scope="row">{{ m.m2['med_id'] }}</td>
+                        <td>{{ m.m2['m_name'] }}</td>
+                        <td>{{ m.m2['desc'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <h3>You Have no Orders</h3>
+    {% endif %}
 {% endblock %}
