@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AMS | {{ title }} </title>
+    <title>MOS | {{ title }} </title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">    
     <link rel="stylesheet" href="{{ url_for('static',filename='css/style.css')}}"/>
@@ -14,18 +14,20 @@
         <nav>
             <ul class="nav nav-pills ml-auto">
                 <li class="nav-item"><a href="{{ url_for('index') }}" class="nav-link {% if index %}active{% endif %}">Home</a></li>
-                <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link {% if courses %}active{% endif %}">About</a></li>
-                <li class="nav-item"><a href="{{ url_for('order') }}" class="nav-link {% if enrollment %}active{% endif %}">Order</a></li> 
+                <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link {% if about %}active{% endif %}">About</a></li>
+                <li class="nav-item"><a href="{{ url_for('order') }}" class="nav-link {% if order %}active{% endif %}">Order</a></li> 
+                <li class="nav-item"><a href="{{ url_for('dashboard') }}" class="nav-link {% if dashboard %}active{% endif %}">Dashboard</a></li> 
+                
 
-                <!-- {% if not session['username'] %} -->
-                <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link {% if register %}active{% endif %}">Register</a></li>   
-                <!-- {% endif %} -->
+                {% if not session['userName'] %}
+                    <li class="nav-item"><a href="{{ url_for('register') }}" class="nav-link {% if register %}active{% endif %}">Register</a></li>   
+                    <li class="nav-item ml-auto"><a href="{{ url_for('login') }}" class="nav-link {% if login %}active{% else %}btn-info{% endif %}">Login</a></li>
+                <!-- {% endif %}
 
-                <!-- {% if not session['username'] %} -->
-                <li class="nav-item ml-auto"><a href="{{ url_for('login') }}" class="nav-link {% if login %}active{% endif %}">Login</a></li>
-                <!-- {% else %} -->
-                <!-- <li class="nav-item"><a href="{{ url_for('logout') }}" class="nav-link">Logout</a></li> -->
-                <!-- {% endif %} -->
+                {% if not session['userName'] %} -->
+                {% else %}
+                    <li class="nav-item ml-auto"><a href="{{ url_for('logout') }}" class="nav-link btn-info">Logout</a></li>
+                {% endif %}
             </ul>
         </nav>
         <hr style="clear:both">
@@ -33,10 +35,10 @@
     <div class="container-fluid text-center top-container">
         <img class='img-fluid' style='max-width: 10em;' src="{{ url_for('static',filename='images/sd2.png')}}">
     </div>
-<!-- 
-    {% if session['username'] %}
-    <span class="user">Welcome, {{ session['username'] }}</span>
-    {% endif %} -->
+
+    {% if session['userName'] %}
+        <span class="user">Welcome, {{ session['userName'] }}</span>
+    {% endif %}
 
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}

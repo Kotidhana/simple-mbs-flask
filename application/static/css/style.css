@@ -79,3 +79,10 @@
     text-decoration: none;
     color: rgb(0, 69, 71);
 }
+.user{
+    font-size: medium;
+    position: absolute;
+    float: right;
+    right: 10em;
+    top: 5em;
+}
