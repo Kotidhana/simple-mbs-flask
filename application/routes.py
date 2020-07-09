@@ -8,13 +8,16 @@ from application.forms import LoginForm,RegisterForm
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('index.html',login=True, title='Homepage')
+    return render_template('index.html', title='Homepage', index=True)
 
 
 
 
 @app.route('/register', methods=['GET','POST'])
 def register():
+    if session.get('user_id'):
+        return redirect( url_for('index') )
+
     rForm = RegisterForm()
     if rForm.validate_on_submit():
         f_name      =   rForm.f_name.data
@@ -41,13 +44,16 @@ def register():
             flash('You are Successfully registered!!!','success')
             return redirect(url_for('index'))
 
-    return render_template('register.html',form=rForm, title='Register')
+    return render_template('register.html',form=rForm, title='Register', register=True)
 
 
 
 
 @app.route('/login', methods=['GET','POST'])
 def login():
+    if session.get('user_id'):
+        return redirect( url_for('index') )
+
     lForm = LoginForm()
     if lForm.validate_on_submit():
         user_id     =   lForm.user_id.data
@@ -55,13 +61,22 @@ def login():
 
         cust = Customers.objects(user_id = user_id).first()
         if cust and cust.get_password(password):
-            flash('Login Successful!','success')
-            session['user_id']=cust.user_id
+            session['user_id']  =   cust.user_id
+            session['userName'] =   cust.f_name
+            flash(f'Login Successful! Welcome {session.get("userName")}','success')
             return redirect('/index')
         else:
             flash('Userid and Password Does not match!...Try again','danger')
 
-    return render_template('login.html',form=lForm, title='Login')
+    return render_template('login.html',form=lForm, title='Login', login=True)
+
+
+
+@app.route('/logout')
+def logout():
+    session['user_id']=False
+    session.pop('userName',None)
+    return redirect( url_for('index') )
 
 
 
@@ -69,27 +84,30 @@ def login():
 @app.route('/order')
 def order():
     medlist         =   Medicine.objects.order_by('+med_id')
-    return render_template('orders.html',mlist=medlist, title='MedList')
+    return render_template('orders.html',mlist=medlist, title='MedList', order=True)
 
 
 
 
 @app.route('/dashboard', methods=['GET','POST'])
 def dashboard():
-    m_id    =   request.form.get('med_id')
-    m_n     =   request.form['m_name']
-    cust_id =   session['user_id']
+    if not session.get('user_id'):
+        return redirect( url_for('login') )
 
-    if m_id:
-        ord = Order.objects(cust_id=cust_id,med_id=m_id).first()
-        if ord:
-            flash(f"You already Ordered { m_n }!",'warning')
+    med_id  =   request.form.get('med_id')
+    m_name  =   request.form.get('m_name')
+    cust_id =   session.get('user_id')
+
+    if med_id:
+        if Order.objects(cust_id=cust_id,med_id=med_id):
+            flash(f"You already Ordered { m_name }!",'warning')
             redirect( url_for('order') )
 
         else:
-            Order(cust_id=cust_id,med_id=m_id).save()
-            flash(f"Order on { m_n } placed!",'success')  
-
+            Order(cust_id=cust_id,med_id=med_id).save()
+            flash(f"Order on { m_name } placed!",'success')  
+            redirect( url_for('order') )
+            
     meds    =   list( Customers.objects.aggregate(*[{
                                                     '$lookup': {
                                                         'from': 'order', 
@@ -128,7 +146,7 @@ def dashboard():
 
 @app.route('/about')
 def about():
-    return render_template('about.html', title='About')
+    return render_template('about.html', title='About', about=True)
 #     return abort(404)
 
 
@@ -136,4 +154,4 @@ def about():
 
 @app.route('/<code>')
 def not_found(code):
-    return render_template('not_found.html',str=code)
+    return render_template('not_found.html',str=code, title='Not Found')
